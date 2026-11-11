@@ -3,7 +3,14 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Run Help Desk",
+            "name": "Run Help Desk (GUI)",
+            "request": "launch",
+            "mainClass": "helpdesk.gui.GuiMain",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "java",
+            "name": "Run Help Desk (console)",
             "request": "launch",
             "mainClass": "helpdesk.Main",
             "cwd": "${workspaceFolder}",
