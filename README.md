@@ -1,7 +1,6 @@
 # IT Help Desk Ticketing System
 
-Class 4-310 | Group 3. Java + MySQL (JDBC). Has a Swing GUI and a console (CLI) version
-that share the same database code.
+Class 4-310 | Group 3. Java + MySQL (JDBC). A console (terminal) application.
 
 ## Requirements
 
@@ -38,33 +37,16 @@ It only has to be on the classpath when you compile and run (the commands below 
    ```
 3. Compile and run:
    ```bash
-   ./run.sh        # GUI version
-   ./run.sh cli    # console version
+   ./run.sh
    ```
    On Windows (PowerShell), from the project folder:
    ```powershell
    javac --release 17 -d out -cp lib/mysql-connector-j-8.4.0.jar (Get-ChildItem -Recurse -Filter *.java src).FullName
-   java -cp "out;lib/mysql-connector-j-8.4.0.jar" helpdesk.gui.GuiMain   # GUI
-   java -cp "out;lib/mysql-connector-j-8.4.0.jar" helpdesk.Main          # console
+   java -cp "out;lib/mysql-connector-j-8.4.0.jar" helpdesk.Main
    ```
-   In VS Code, open the Run and Debug panel and pick **Run Help Desk (GUI)** or **Run Help Desk (console)**.
+   In VS Code, open the Run and Debug panel and pick **Run Help Desk**.
 
-## GUI version
-
-One window with a tab for each part of the system. **File → Exit** (or closing the window) asks before quitting.
-
-| Tab | What you can do |
-|---|---|
-| Tickets | View all tickets; **New ticket**; **Assign technician**; **Change status**; **Change priority**; **View details / comments** (or double-click a row) shows the status history and lets you add or delete comments |
-| Users | View all users; **Add user**; **Edit user**; **Activate / deactivate** (users are never deleted) |
-| Assets | View all assets; **Add asset**; **Edit asset**; **Delete asset** |
-| Reports | Pick one of the 10 queries and click **Run** (or double-click it); shows the result table and the SQL |
-| Reference data | Departments, support teams, categories, priorities and ticket statuses |
-
-Forms check required fields and email format before saving, and database errors are shown in a message box
-instead of closing the program.
-
-## Console version
+## Menu functions
 
 | Requirement | Where in the menu |
 |---|---|
@@ -87,7 +69,7 @@ automatic closing after 3 days.
 
 ## Queries
 
-GUI: **Reports** tab. Console: main menu → **5. Reports (queries)**; pick a number, or **A** to run all ten.
+Main menu → **5. Reports (queries)**; pick a number, or **A** to run all ten.
 The SQL lives in `src/helpdesk/dao/ReportDao.java`; the same SQL is in
 `sql/4-310G3W4_queries.sql` for running in MySQL Workbench.
 
@@ -112,18 +94,17 @@ stopping the program.
 
 ```
 src/helpdesk/
-  Main.java          starts the console version and tests the connection
+  Main.java          starts the program and tests the connection
   db/Database.java   opens JDBC connections (reads db.properties)
   model/             data classes (Ticket, User, Asset, Comment, ...)
   dao/               all SQL lives here (TicketDao, UserDao, AssetDao, ReportDao, ...)
   cli/               console menus and keyboard input (ReportMenu = Week 4 queries)
-  gui/               Swing screens (GuiMain starts it; one panel per tab)
 lib/                 MySQL JDBC driver (Connector/J 8.4.0)
 sql/database.sql     FINAL database script: tables, constraints, reference and sample data
 sql/4-310G3W4_queries.sql   the 10 queries, for MySQL Workbench
 sql/4-310G3W2.sql, sql/4-310G3W4_sample_data.sql   earlier weekly scripts (kept for reference)
 db.properties        MySQL connection settings
-run.sh               compile and run (GUI, or console with "cli")
+run.sh               compile and run
 ```
 
 ## Troubleshooting
@@ -136,5 +117,5 @@ run.sh               compile and run (GUI, or console with "cli")
 | `No suitable driver` / `ClassNotFoundException: com.mysql...` | The jar in `lib/` is missing or not on the classpath |
 | `db.properties not found, using default settings` | Run the program from the project folder |
 
-The `dao` and `model` packages do not print anything or read the keyboard, so the
-`gui` and `cli` packages both call the same DAOs.
+The `dao` and `model` packages do not print anything or read the keyboard; all
+console input and output is in the `cli` package.
